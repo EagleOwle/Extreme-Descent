@@ -15,14 +15,15 @@ public class BikeMotor : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rigidbody.AddForce(Vector2.right * InputHandler.Instance.MoveDirection * speedDirection * Time.fixedDeltaTime);
-        rigidbody.AddTorque(InputHandler.Instance.UpDirection * speedRotation * Time.fixedDeltaTime);
-
         if (enableCentrOfMass)
         {
             Vector2 centr = (Vector2)transform.position + rigidbody.centerOfMass;
-            ring.position = centr + Vector2.left * InputHandler.Instance.UpDirection;
+            ring.position = centr + (Vector2.left + Vector2.up) * InputHandler.Instance.UpDirection;
         }
+
+        rigidbody.AddForce(Vector2.right * InputHandler.Instance.MoveDirection * speedDirection * Time.fixedDeltaTime);
+        rigidbody.AddTorque(InputHandler.Instance.UpDirection * speedRotation * Time.fixedDeltaTime, ForceMode2D.Impulse);
+
     }
 
     public void Sleep()

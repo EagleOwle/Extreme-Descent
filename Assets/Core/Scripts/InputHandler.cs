@@ -18,8 +18,9 @@ public class InputHandler : MonoBehaviour
         }
     }
     private static InputHandler instance;
-    
-    private bool isMobilePlatform;
+
+    [SerializeField] private UIInputPanel uIInputPanel;
+
     public float MoveDirection => moveDirection;
     private float moveDirection;
 
@@ -30,12 +31,6 @@ public class InputHandler : MonoBehaviour
 
     public void Initialise(IGameState gameState)
     {
-#if UNITY_EDITOR || UNITY_STANDALONE
-        isMobilePlatform = false;
-#else 
-        isMobilePlatform = true;
-#endif
-
         this.gameState = gameState;
         this.gameState.eventEndGame += GameState_eventEndGame;
         this.gameState.eventPauseGame += GameState_eventPauseGame;
@@ -48,15 +43,8 @@ public class InputHandler : MonoBehaviour
 
     private void InputListen()
     {
-        if(isMobilePlatform)
-        {
-
-        }
-        else
-        {
-            moveDirection = Input.GetAxis("Horizontal");
-            upDirection = -Input.GetAxis("Vertical");
-        }
+        moveDirection = uIInputPanel.ButtonValue.x;
+        upDirection = -uIInputPanel.ButtonValue.y;
     }
 
     private void GameState_eventPauseGame(bool value)
@@ -74,4 +62,6 @@ public class InputHandler : MonoBehaviour
         this.gameState.eventEndGame -= GameState_eventEndGame;
         this.gameState.eventPauseGame -= GameState_eventPauseGame;
     }
+
+
 }

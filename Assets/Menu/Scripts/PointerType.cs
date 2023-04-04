@@ -2,5 +2,6 @@
 {
     Down,
     Enter,
-    Exit
+    Exit,
+    Up
 }
